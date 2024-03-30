@@ -1,3 +1,5 @@
+@import '/src/components/Header/Header.scss';
+
 html {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -14,7 +16,10 @@ body {
 }
 
 .main {
-  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  flex-direction: column; 
 }
 
 .bg-dark {
@@ -71,7 +76,7 @@ body {
 }
 
 .hero {
-  background-image: url('../img/bank-tree.jpeg');
+  background-image: url('./images/bank-tree.webp');
   background-position: 0 -50px;
   background-size: cover;
   background-repeat: no-repeat;
