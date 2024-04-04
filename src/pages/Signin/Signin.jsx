@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import  { loginUser  }  from '../../redux/authThunks.jsx'; // Import your login thunk
-import { NavLink } from 'react-router-dom';
+import { loginUser } from '../../redux/authThunks.jsx';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 export default function Signin() {
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
+  const navigate = useNavigate(); 
+
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -15,9 +18,25 @@ export default function Signin() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginUser(credentials));
+    try {
+      // Dispatch loginUser action to attempt login
+      const response = await dispatch(loginUser(credentials));
+      
+      // Check if login was successful (based on the response)
+      if (response.payload) {
+        // If login was successful, navigate to the '/user' route
+        navigate('/user');
+      } else {
+        // If login was not successful, display an error message
+        setError('Invalid email or password');
+      }
+    } catch (error) {
+      // If an error occurred during the login process, log the error and set the error message
+      console.error('Error logging in:', error);
+      setError('An error occurred while logging in');
+    }
   };
 
   return (
@@ -27,11 +46,11 @@ export default function Signin() {
         <h1>Sign In</h1>
         <form onSubmit={handleSubmit}>
           <div className="input-wrapper">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="email">Email</label>
             <input
-              type="text"
-              id="username"
-              value={credentials.username}
+              type="email"
+              id="email"
+              value={credentials.email}
               onChange={handleChange}
             />
           </div>
@@ -48,9 +67,11 @@ export default function Signin() {
             <input type="checkbox" id="remember-me" />
             <label htmlFor="remember-me">Remember me</label>
           </div>
-          <button type="submit" className="sign-in-button">Sign In</button>
+          {error && <p className="bad-email">{error}</p>}
+          <button type="submit" className="sign-in-button">
+            Sign In
+          </button>
         </form>
-        <NavLink to="/user">Forgot password?</NavLink>
       </section>
     </main>
   );
