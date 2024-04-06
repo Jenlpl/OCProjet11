@@ -10,7 +10,7 @@ import store from './redux/store'; // Import your Redux store
 
 function App() {
   return (  
-    <Provider store={store}> {/* Open Provider tag here */}
+    
       <>
         <Header />
         <Routes>
@@ -21,7 +21,7 @@ function App() {
         </Routes>
         <Footer />
       </>
-    </Provider> 
+    
   );
 }
 
