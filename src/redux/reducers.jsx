@@ -1,10 +1,21 @@
+import { createSlice } from "@reduxjs/toolkit";
+import { loginUser } from "./authThunks";
+
 const initialState = {
-  // Your initial state here
+  isAuthenticated: false,
+  // Other initial state properties here
 };
 
-const rootReducer = (state = initialState, action) => {
-  // Your root reducer logic here
-  return state; // Dummy logic, just returning the state as is
-};
+const authSlice = createSlice({
+  name: "auth",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    // Handle loginUser success case
+    builder.addCase(loginUser.fulfilled, (state, action) => {
+      state.isAuthenticated = true; // Update isAuthenticated to true upon successful login
+    });
+  },
+});
 
-export default rootReducer;
+export default authSlice.reducer;

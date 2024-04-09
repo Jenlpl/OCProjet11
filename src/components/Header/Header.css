@@ -44,3 +44,16 @@
     max-width: 100%;
     width: 200px;
   }
+
+  .signout-nav {
+    display: flex;
+    gap: 15px;
+    font-size: 1.3rem;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    font-size: 1.3rem;
+    gap: 5px;
+  }

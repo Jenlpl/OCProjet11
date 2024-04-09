@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../redux/authThunks.jsx';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-export default function Signin() {
+export default function SignIn({ updateHeaderState }) {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
-  const navigate = useNavigate(); 
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -20,20 +19,22 @@ export default function Signin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Submitting form with credentials:', credentials);
+
     try {
-      // Dispatch loginUser action to attempt login
       const response = await dispatch(loginUser(credentials));
+      console.log('Login response:', response);
       
-      // Check if login was successful (based on the response)
       if (response.payload) {
-        // If login was successful, navigate to the '/user' route
+        console.log('Login successful! Navigating to /user');
+        // Call the function to update the header state
+        updateHeaderState();
         navigate('/user');
       } else {
-        // If login was not successful, display an error message
+        console.log('Login failed:', response.error);
         setError('Invalid email or password');
       }
     } catch (error) {
-      // If an error occurred during the login process, log the error and set the error message
       console.error('Error logging in:', error);
       setError('An error occurred while logging in');
     }
