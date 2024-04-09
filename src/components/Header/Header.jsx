@@ -1,11 +1,10 @@
-// Header.jsx
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Logo from '../../images/argentBankLogo.webp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
-export default function Header({ isUserConnected, firstName, updateHeaderState }) {
+export default function Header({ isUserConnected, userFirstName, updateHeaderState }) {
   const handleLogout = () => {
     console.log('Logging out...');
     localStorage.removeItem('jwtToken');
@@ -28,7 +27,7 @@ export default function Header({ isUserConnected, firstName, updateHeaderState }
             <div className='signout-nav'>
               <NavLink to="/user" className="nav-link">
                 <FontAwesomeIcon icon={faUserCircle} />
-                {firstName} {/* Display user's first name */}
+                {userFirstName}
               </NavLink>
               <NavLink to="/sign-in" onClick={handleLogout} className="nav-link">
                 <FontAwesomeIcon icon={faRightFromBracket} />

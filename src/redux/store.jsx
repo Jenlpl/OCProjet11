@@ -1,21 +1,16 @@
-import { createStore, applyMiddleware } from 'redux';
-import {thunk} from "redux-thunk";
+import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from './reducers';
-import { useSelector } from 'react-redux';
 
 const initialState = {
   isAuthenticated: false,
-  user: {
-    firstName: null,
-    // other user-related fields if needed
-  },
+  token: null,
+  user: null
   // Other initial state properties here
 };
 
-
-const store = createStore(
-  rootReducer,
-  applyMiddleware(thunk)
-);
+const store = configureStore({
+  reducer: rootReducer,
+  preloadedState: initialState // Optional: Provide initial state here
+});
 
 export default store;

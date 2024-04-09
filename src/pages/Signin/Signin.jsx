@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../redux/authThunks.jsx';
 import { useNavigate } from 'react-router-dom';
+import Header from '../../components/Header/Header.jsx';
 
 export default function SignIn({ updateHeaderState }) {
   const [credentials, setCredentials] = useState({ email: '', password: '' });

@@ -3,30 +3,26 @@ import { loginUser } from "./authThunks";
 
 const initialState = {
   isAuthenticated: false,
-  user: {
-    firstName: null,
-    // other user-related fields if needed
-  },
+  token: null,
+  user: null,
   // Other initial state properties here
 };
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
-    setUser: (state, action) => {
+    setToken(state, action) {
+      state.token = action.payload;
       state.isAuthenticated = true;
+    },
+    setUser(state, action) {
       state.user = action.payload;
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(loginUser.fulfilled, (state, action) => {
-      state.isAuthenticated = true;
-      // Assuming the action.payload contains user information
-      state.user = action.payload;
-    });
+    // Add other reducers as needed
   },
 });
 
-export const { setUser } = authSlice.actions;
+export const { setToken, setUser } = authSlice.actions;
+
 export default authSlice.reducer;
