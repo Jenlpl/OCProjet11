@@ -7,7 +7,7 @@ export default function EditForm() {
   
     return (
       <div className="edit-form">
-        <h2> Edit User Name</h2>
+        <h2> Edit User Info</h2>
         <form>
           <div className="input-wrapper">
             <label htmlFor="username">User Name</label>
