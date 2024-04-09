@@ -1,7 +1,10 @@
 import React from 'react';
+import EditForm from '../../components/EditForm/EditForm';
 
 export default function User() {
   return (
+    <>
+    <EditForm />
     <main className="main bg-dark">
       <div className="header">
         <h1>Welcome back<br />Tony Jarvis!</h1>
@@ -39,5 +42,6 @@ export default function User() {
         </div>
       </section>
     </main>
+    </>
   );
 }

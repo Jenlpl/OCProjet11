@@ -48,3 +48,22 @@ export const logoutUser = createAsyncThunk(
     }
   }
 );
+
+
+export const fetchUserData = createAsyncThunk(
+  "user/fetchUserData",
+  async (_, { getState }) => {
+    try {
+      const token = getState().auth.token; // Assuming you have a slice named 'auth' with a 'token' field
+      const response = await axios.put("/http://localhost:3001/api/v1/user/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+       console.error("Error fetching user data:", error);
+      throw error;
+    }
+  }
+);

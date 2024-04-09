@@ -5,7 +5,7 @@ import Logo from '../../images/argentBankLogo.webp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
-export default function Header({ isUserConnected, updateHeaderState }) {
+export default function Header({ isUserConnected, firstName, updateHeaderState }) {
   const handleLogout = () => {
     console.log('Logging out...');
     localStorage.removeItem('jwtToken');
@@ -26,9 +26,9 @@ export default function Header({ isUserConnected, updateHeaderState }) {
         <div>
           {isUserConnected ? (
             <div className='signout-nav'>
-              <NavLink to="/" className="nav-link">
+              <NavLink to="/user" className="nav-link">
                 <FontAwesomeIcon icon={faUserCircle} />
-                firstname
+                {firstName} {/* Display user's first name */}
               </NavLink>
               <NavLink to="/sign-in" onClick={handleLogout} className="nav-link">
                 <FontAwesomeIcon icon={faRightFromBracket} />

@@ -1,5 +1,5 @@
 @import '/src/components/Header/Header.css';
-
+@import '/src/components/EditForm/EditForm.css';
 
 html {
   font-family: Avenir, Helvetica, Arial, sans-serif;
