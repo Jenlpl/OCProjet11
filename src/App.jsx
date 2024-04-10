@@ -7,7 +7,7 @@ import Signin from './pages/Signin/Signin';
 import User from './pages/User/User';
 import Footer from './components/Footer';
 import store from './redux/store';
-import { fetchProfile } from './redux/actions/userActions'; // Import fetchProfile thunk action
+import { fetchProfile } from './redux/actions/user.actions'; // Import fetchProfile thunk action
 
 function App() {
   const [isUserConnected, setUserConnected] = useState(false);
@@ -37,7 +37,7 @@ function App() {
   return (
     <Provider store={store}>
       <>
-        <Header isUserConnected={isUserConnected} firstName={userFirstName} updateHeaderState={updateHeaderState} />
+      <Header isUserConnected={isUserConnected} userFirstName={userFirstName} updateHeaderState={updateHeaderState} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/sign-in" element={<Signin updateHeaderState={updateHeaderState} />} />

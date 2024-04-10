@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { loginUser } from '../../redux/actions/authThunks.jsx';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header/Header.jsx';
+import { fetchProfile } from '../../redux/actions/user.actions.jsx';
 
 export default function SignIn({ updateHeaderState }) {
   const [credentials, setCredentials] = useState({ email: '', password: '' });

@@ -20,6 +20,7 @@ export const fetchProfile = createAsyncThunk(
   "user/fetchProfile",
   async (token, { dispatch, rejectWithValue }) => {
     try {
+      console.log('Fetching user profile...');
       const url = "http://localhost:3001/api/v1/user/profile";
       const response = await fetch(url, {
         method: "POST",
@@ -34,8 +35,9 @@ export const fetchProfile = createAsyncThunk(
       }
 
       const dataResponse = await response.json();
-      const userprofile = dataResponse.body;
-      return userprofile;
+      const userProfile = dataResponse.body;
+      console.log('User profile fetched:', userProfile);
+      return userProfile;
     } catch (error) {
       console.error("Error fetching user profile:", error);
       return rejectWithValue(error.message);

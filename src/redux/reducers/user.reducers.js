@@ -1,12 +1,8 @@
-import {
-    EDIT_USERNAME,
-    GET_USERPROFILE,
-    LOGOUT,
-  } from "../actions/types.actions";
-  
+const GET_USERPROFILE = "GET_USER_PROFILE"
+
   const initialState = {
     status: "VOID",
-    userProfile: "",
+    userProfile: {}, // Initialize as an empty object
   };
   
   export const userReducer = (state = initialState, action) => {
@@ -18,16 +14,7 @@ import {
           userProfile: action.payload,
         };
   
-      case EDIT_USERNAME:
-        const newProfile = { ...state.userProfile, userName: action.payload };
-        return {
-          ...state,
-          status: "MODIFIED",
-          userProfile: newProfile,
-        };
-      case LOGOUT: {
-        return initialState;
-      }
+      
       default:
         return state;
     }
