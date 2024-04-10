@@ -47,6 +47,9 @@ export default function Header({ isUserConnected, updateHeaderState }) {
               <FontAwesomeIcon icon={faUserCircle} />
               {userFirstName}
             </NavLink>
+            <NavLink>
+            {userProfile.firstName}
+            </NavLink>
             <NavLink to="/sign-in" onClick={handleLogout} className="nav-link">
               <FontAwesomeIcon icon={faRightFromBracket} />
               Sign Out
