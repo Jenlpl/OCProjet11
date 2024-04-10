@@ -50,31 +50,4 @@ export const logoutUser = createAsyncThunk(
 );
 
 
-export const fetchUserData = createAsyncThunk(
-  "user/fetchUserData",
-  async (_, { getState }) => {
-    try {
-      const token = getState().auth.token; // Access token from auth slice
-      const response = await axios.put("http://localhost:3001/api/v1/user/profile", null, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
 
-      console.log("Fetch user data response:", response); // Log the entire response
-      console.log("User first name:", response.data.firstName); // Log the user's first name from the response
-      
-      // Assuming the response contains user data including first name
-      const { firstName } = response.data; // Adjust this according to your server response
-      
-      // Dispatch an action to update the user's first name in the Redux store
-      // This assumes you have a Redux action called setUserFirstName or something similar
-      store.dispatch(setUserFirstName(firstName)); // Dispatch action to set user's first name
-
-      return response.data; // Return the entire response data
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      throw error;
-    }
-  }
-);

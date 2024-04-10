@@ -1,4 +1,3 @@
-// App.jsx
 import React, { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { Routes, Route } from "react-router-dom";
@@ -8,7 +7,7 @@ import Signin from './pages/Signin/Signin';
 import User from './pages/User/User';
 import Footer from './components/Footer';
 import store from './redux/store';
-import { fetchUserData } from './redux/authThunks'; // Import fetchUserData thunk action
+import { fetchProfile } from './redux/actions/userActions'; // Import fetchProfile thunk action
 
 function App() {
   const [isUserConnected, setUserConnected] = useState(false);
@@ -17,16 +16,16 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
     if (token) {
-      // User is connected, fetch user data
+      // User is connected, fetch user profile
       setUserConnected(true);
-      // Dispatch action to fetch user data
-      store.dispatch(fetchUserData())
-        .then((userData) => {
-          // Assuming userData contains the user's information including first name
-          setUserFirstName(userData.firstName);
+      // Dispatch action to fetch user profile
+      store.dispatch(fetchProfile(token))
+        .then((userProfile) => {
+          // Assuming userProfile contains the user's information including first name
+          setUserFirstName(userProfile.firstName);
         })
         .catch((error) => {
-          console.error('Error fetching user data:', error);
+          console.error('Error fetching user profile:', error);
         });
     }
   }, []); // Run once on component mount

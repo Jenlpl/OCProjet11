@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { loginUser } from '../../redux/authThunks.jsx';
+import { loginUser } from '../../redux/actions/authThunks.jsx';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header/Header.jsx';
 
