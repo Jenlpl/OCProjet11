@@ -23,32 +23,34 @@ export default function Header({ isUserConnected, updateHeaderState }) {
     console.log('User profile:', userProfile);
   }, [userProfile]);
 
+  useEffect(() => {
+    console.log('User first name:', userFirstName);
+  }, [userFirstName]);
+
   const handleLogout = () => {
     console.log('Logging out...');
     localStorage.removeItem('jwtToken');
     updateHeaderState(); // Update the header state
   };
 
-  return (
-    <header>
-      <nav className="main-nav">
-        <NavLink to="/" className='nav-link'>
-          <img
-            className="main-nav-logo-image"
-            src={Logo}
-            alt="Argent Bank Logo"
-          />
-          <h1 className="sr-only">Argent Bank</h1>
-        </NavLink>
-        <div>
-        {isUserConnected ? (
+  // Inside your Header component
+return (
+  <header>
+    <nav className="main-nav">
+      <NavLink to="/" className='nav-link'>
+        <img
+          className="main-nav-logo-image"
+          src={Logo}
+          alt="Argent Bank Logo"
+        />
+        <h1 className="sr-only">Argent Bank</h1>
+      </NavLink>
+      <div>
+        {isUserConnected && userProfile ? (
           <div className='signout-nav'>
             <NavLink to="/user" className="nav-link">
               <FontAwesomeIcon icon={faUserCircle} />
-              {userFirstName}
-            </NavLink>
-            <NavLink>
-            {userProfile.firstName}
+              {userProfile.firstName}
             </NavLink>
             <NavLink to="/sign-in" onClick={handleLogout} className="nav-link">
               <FontAwesomeIcon icon={faRightFromBracket} />
@@ -61,8 +63,8 @@ export default function Header({ isUserConnected, updateHeaderState }) {
             Sign In
           </NavLink>
         )}
-        </div>
-      </nav>
-    </header>
-  );
+      </div>
+    </nav>
+  </header>
+);
 }
