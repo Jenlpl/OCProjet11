@@ -18,19 +18,17 @@ function App() {
     if (token) {
       // User is connected, fetch user profile
       setUserConnected(true);
-      console.log('Fetching user profile...');
       // Dispatch action to fetch user profile
       store.dispatch(fetchProfile(token))
         .then((userProfile) => {
           // Assuming userProfile contains the user's information including first name
           setUserFirstName(userProfile.firstName);
-          console.log('User profile fetched:', userProfile);
         })
         .catch((error) => {
           console.error('Error fetching user profile:', error);
         });
     }
-  }, []);  // Run once on component mount
+  }, []); // Run once on component mount
 
   const updateHeaderState = () => {
     setUserConnected(!!localStorage.getItem('jwtToken'));

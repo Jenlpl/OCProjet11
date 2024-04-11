@@ -6,10 +6,13 @@ import { faUserCircle, faRightFromBracket } from '@fortawesome/free-solid-svg-ic
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProfile } from "../../redux/actions/user.actions";
 
+
 export default function Header({ isUserConnected, updateHeaderState }) {
   const dispatch = useDispatch();
   const userProfile = useSelector((state) => state.user.userProfile);
-  const userFirstName = userProfile.firstName;
+  
+  const userFirstName = userProfile ? userProfile.firstName : '';
+
 
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
@@ -19,13 +22,7 @@ export default function Header({ isUserConnected, updateHeaderState }) {
     }
   }, [dispatch]); // Run once on component mount
 
-  useEffect(() => {
-    console.log('User profile:', userProfile);
-  }, [userProfile]);
-
-  useEffect(() => {
-    console.log('User first name:', userFirstName);
-  }, [userFirstName]);
+ 
 
   const handleLogout = () => {
     console.log('Logging out...');
@@ -33,24 +30,26 @@ export default function Header({ isUserConnected, updateHeaderState }) {
     updateHeaderState(); // Update the header state
   };
 
-  // Inside your Header component
-return (
-  <header>
-    <nav className="main-nav">
-      <NavLink to="/" className='nav-link'>
-        <img
-          className="main-nav-logo-image"
-          src={Logo}
-          alt="Argent Bank Logo"
-        />
-        <h1 className="sr-only">Argent Bank</h1>
-      </NavLink>
-      <div>
-        {isUserConnected && userProfile ? (
+  return (
+    <header>
+      <nav className="main-nav">
+        <NavLink to="/" className='nav-link'>
+          <img
+            className="main-nav-logo-image"
+            src={Logo}
+            alt="Argent Bank Logo"
+          />
+          <h1 className="sr-only">Argent Bank</h1>
+        </NavLink>
+        <div>
+        {isUserConnected ? (
           <div className='signout-nav'>
             <NavLink to="/user" className="nav-link">
               <FontAwesomeIcon icon={faUserCircle} />
-              {userProfile.firstName}
+              {userFirstName}
+            </NavLink>
+            <NavLink>
+            {userProfile.firstName}
             </NavLink>
             <NavLink to="/sign-in" onClick={handleLogout} className="nav-link">
               <FontAwesomeIcon icon={faRightFromBracket} />
@@ -63,8 +62,8 @@ return (
             Sign In
           </NavLink>
         )}
-      </div>
-    </nav>
-  </header>
-);
+        </div>
+      </nav>
+    </header>
+  );
 }

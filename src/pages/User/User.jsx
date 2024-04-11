@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import EditForm from '../../components/EditForm/EditForm';
+import EditForm from '../../components/EditForm/EditForm.jsx';
 
 export default function User() {
   const [isEditFormVisible, setIsEditFormVisible] = useState(false);
