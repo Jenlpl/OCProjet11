@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import Logo from '../../images/argentBankLogo.webp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,24 +6,27 @@ import { faUserCircle, faRightFromBracket } from '@fortawesome/free-solid-svg-ic
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProfile } from "../../redux/actions/user.actions";
 
-
 export default function Header({ isUserConnected, updateHeaderState }) {
   const dispatch = useDispatch();
-  const userProfile = useSelector((state) => state.user.userProfile);
-  
+  const userProfile = useSelector((state) => state.user.userProfile); // Use useSelector to access userProfile state
   const userFirstName = userProfile?.firstName;
+  const tokenSelector = useSelector((state) => state.auth.token);
+  const [token, setToken] = useState(tokenSelector || "");
 
-
-
+  useEffect(
+    () => {
+      setToken(tokenSelector || localStorage.getItem("token") || "");
+    },
+    [tokenSelector],
+    []
+  );
   useEffect(() => {
-    const token = localStorage.getItem('jwtToken');
     if (token) {
-      // Fetch user profile
       dispatch(fetchProfile(token));
     }
-  }, [dispatch]); // Run once on component mount
+  }, [token],[dispatch],[]);
 
- 
+  
 
   const handleLogout = () => {
     console.log('Logging out...');
@@ -43,26 +46,23 @@ export default function Header({ isUserConnected, updateHeaderState }) {
           <h1 className="sr-only">Argent Bank</h1>
         </NavLink>
         <div>
-        {isUserConnected ? (
-          <div className='signout-nav'>
-            <NavLink to="/user" className="nav-link">
+          {isUserConnected ? (
+            <div className='signout-nav'>
+              <NavLink to="/user" className="nav-link">
+                <FontAwesomeIcon icon={faUserCircle} />
+                {userFirstName}
+              </NavLink>
+              <NavLink to="/sign-in" onClick={handleLogout} className="nav-link">
+                <FontAwesomeIcon icon={faRightFromBracket} />
+                Sign Out
+              </NavLink>
+            </div>
+          ) : (
+            <NavLink to="/sign-in" className="nav-link">
               <FontAwesomeIcon icon={faUserCircle} />
-              {userFirstName}
+              Sign In
             </NavLink>
-            <NavLink>
-            {userProfile.firstName}
-            </NavLink>
-            <NavLink to="/sign-in" onClick={handleLogout} className="nav-link">
-              <FontAwesomeIcon icon={faRightFromBracket} />
-              Sign Out
-            </NavLink>
-          </div>
-        ) : (
-          <NavLink to="/sign-in" className="nav-link">
-            <FontAwesomeIcon icon={faUserCircle} />
-            Sign In
-          </NavLink>
-        )}
+          )}
         </div>
       </nav>
     </header>

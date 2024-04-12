@@ -1,48 +1,74 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { EDIT_USERNAME, GET_USERPROFILE } from "./types.actions";
 
-// Action types
-export const GET_USERPROFILE = "GET_USERPROFILE";
-export const EDIT_USERNAME = "EDIT_USERNAME";
+export const userProfile = (userProfile) => {
+  return {
+    type: GET_USERPROFILE,
+    payload: userProfile,
+  };
+};
 
-// Action creators
-export const userProfile = (userProfile) => ({
-  type: GET_USERPROFILE,
-  payload: userProfile,
-});
+export const updateUsername = (userName) => {
+  return {
+    type: EDIT_USERNAME,
+    payload: userName,
+  };
+};
 
-export const updateUsername = (userName) => ({
-  type: EDIT_USERNAME,
-  payload: userName,
-});
+export function fetchProfile(token) {
+  return async (dispatch) => {
+    if (token) {
+      try {
+        const url = "http://localhost:3001/api/v1/user/profile";
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-// Thunk to fetch user profile
-export const fetchProfile = createAsyncThunk(
-  "user/fetchProfile",
-  async (token, { dispatch, rejectWithValue }) => {
+        const dataResponse = await response.json();
+        switch (dataResponse.status) {
+          case 401:
+            localStorage.removeItem("token");
+            console.log("token expiré");
+          case 200:
+            const userprofile = dataResponse.body;
+            dispatch(userProfile(userprofile));
+            break;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("token inexistant");
+    }
+  };
+}
+export function fetchupdateUserName(token, username) {
+  return async (dispatch) => {
     try {
-      console.log('Fetching user profile...');
       const url = "http://localhost:3001/api/v1/user/profile";
       const response = await fetch(url, {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify({
+          userName: username,
+        }),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch user profile");
-      }
-
       const dataResponse = await response.json();
-      const userProfile = dataResponse.body;
-      console.log('User profile fetched:', userProfile);
-      return userProfile;
+      console.log(dataResponse);
+      switch (dataResponse.status) {
+        case 200:
+          dispatch(updateUsername(username));
+          break;
+      }
     } catch (error) {
-      console.error("Error fetching user profile:", error);
-      return rejectWithValue(error.message);
+      console.log(error);
     }
-  }
-);
-
-
+  };
+}
