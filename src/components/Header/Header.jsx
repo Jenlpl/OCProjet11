@@ -11,7 +11,8 @@ export default function Header({ isUserConnected, updateHeaderState }) {
   const dispatch = useDispatch();
   const userProfile = useSelector((state) => state.user.userProfile);
   
-  const userFirstName = userProfile ? userProfile.firstName : '';
+  const userFirstName = userProfile?.firstName;
+
 
 
   useEffect(() => {
