@@ -1,22 +1,27 @@
 import React, { useState } from 'react';
 import EditForm from '../../components/EditForm/EditForm.jsx';
+import { useSelector } from "react-redux";
 
 export default function User() {
   const [isEditFormVisible, setIsEditFormVisible] = useState(false);
   const [isDivHeaderVisible, setIsDivHeaderVisible] = useState(true);
+  
 
   const handleEditButtonClick = () => {
     setIsEditFormVisible(true);
     setIsDivHeaderVisible(false); // Hide the div header when the edit button is clicked
   };
 
+  const userProfile = useSelector((state) => state.user.userProfile);
+  const [isEditing, setEditing] = useState(false);
+  
   return (
     <>
-      {isEditFormVisible && <EditForm />}
+      {isEditFormVisible && <EditForm setIsEditing={setEditing} />}
       <main className="main bg-dark">
         {isDivHeaderVisible && ( // Show the div header only if it's visible
           <div className="header">
-            <h1>Welcome back<br />Tony Jarvis!</h1>
+            <h1>Welcome back<br /> {userProfile.userName}!</h1>
             <button className="edit-button" onClick={handleEditButtonClick}>Edit Name</button>
           </div>
         )}
