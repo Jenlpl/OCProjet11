@@ -22,7 +22,7 @@ export default function User() {
       <main className="main bg-dark">
         {isDivHeaderVisible && ( // Show the div header only if it's visible
           <div className="header">
-            <h1>Welcome back<br /> {userProfile.userName}!</h1>
+            <h1>Welcome back<br /> {userProfile.firstName}!</h1>
             <button className="edit-button" onClick={handleEditButtonClick}>Edit Name</button>
           </div>
         )}
