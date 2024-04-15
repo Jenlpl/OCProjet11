@@ -10,37 +10,14 @@ import store from './redux/store';
 import { fetchProfile } from './redux/actions/user.actions'; // Import fetchProfile thunk action
 
 function App() {
-  const [isUserConnected, setUserConnected] = useState(false);
-  const [userFirstName, setUserFirstName] = useState('');
-
-  useEffect(() => {
-    const token = localStorage.getItem('jwtToken');
-    if (token) {
-      // User is connected, fetch user profile
-      setUserConnected(true);
-      // Dispatch action to fetch user profile
-      store.dispatch(fetchProfile(token))
-        .then((userProfile) => {
-          // Assuming userProfile contains the user's information including first name
-          setUserFirstName(userProfile.firstName);
-        })
-        .catch((error) => {
-          console.error('Error fetching user profile:', error);
-        });
-    }
-  }, []); // Run once on component mount
-
-  const updateHeaderState = () => {
-    setUserConnected(!!localStorage.getItem('jwtToken'));
-  };
 
   return (
     <Provider store={store}>
       <>
-      <Header isUserConnected={isUserConnected} userFirstName={userFirstName} updateHeaderState={updateHeaderState} />
+      <Header />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/sign-in" element={<Signin updateHeaderState={updateHeaderState} />} />
+          <Route path="/sign-in" element={<Signin />} />
           <Route path="/user" element={<User />} />
         </Routes>
         <Footer />

@@ -1,41 +1,38 @@
-import React, { useState } from "react"; // Import React and useState
+import React, { useState, useEffect } from "react"; // Import React and useState
 import { useDispatch, useSelector } from "react-redux";
-import { fetchupdateUserName } from "../../redux/actions/user.actions";
+import { updateUsername } from "../../redux/actions/user.actions";
 
 export default function EditForm({ setIsEditing }) {
   const dispatch = useDispatch();
-  const userProfile = useSelector((state) => state.user.userProfile);
-  const authToken = useSelector((state) => state.auth.token);
+  const { userName, lastName, firstName } = useSelector((state) => state.user);
+  const { token } = useSelector((state) => state.auth);
   const [newUserName, setNewUserName] = useState("");
 
-  const handleUpdateUserName = async () => {
-    if (newUserName) {
-      dispatch(
-        fetchupdateUserName(
-          authToken || localStorage.getItem("token"),
-          newUserName
-        )
-      );
+  const handleUpdateUserName = (event) => {
+    event.preventDefault();
+    if (newUserName.trim() && newUserName.trim() !== userName) {
+      dispatch(updateUsername({ token, userName: newUserName }));
       setIsEditing(false);
-      setNewUserName("");
     }
   };
 
   const handleCancel = () => {
     setIsEditing(false);
-    setNewUserName("");
   };
+
+  useEffect(() => {
+    setNewUserName(userName);
+  }, [userName])
 
   return (
     <div className="edit-form">
       <h2> Edit User Name</h2>
-      <form>
+      <form onSubmit={handleUpdateUserName}>
         <div className="input-wrapper">
           <label htmlFor="username">User Name</label>
           <input
             type="text"
             id="newUserName"
-            placeholder={userProfile.userName}
             value={newUserName}
             onChange={(e) => setNewUserName(e.target.value)}
           />
@@ -45,8 +42,8 @@ export default function EditForm({ setIsEditing }) {
           <input
             type="text"
             id="firstName"
-            value={userProfile.firstName}
-            disabled
+            value={firstName}
+            disabled={true}
           />
         </div>
         <div className="input-wrapper">
@@ -54,12 +51,12 @@ export default function EditForm({ setIsEditing }) {
           <input
             type="text"
             id="lastName"
-            value={userProfile.lastName}
-            disabled
+            value={lastName}
+            disabled={true}
           />
         </div>
         <div className="buttons-form">
-          <button className="button" onClick={handleUpdateUserName}>Save</button>
+          <button className="button">Save</button>
           <button className="button" onClick={handleCancel}>Cancel</button>
         </div>
       </form>

@@ -5,33 +5,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProfile } from "../../redux/actions/user.actions";
+import { logoutUser } from '../../redux/reducers/auth.reducers';
 
-export default function Header({ isUserConnected, updateHeaderState }) {
+export default function Header() {
   const dispatch = useDispatch();
-  const userProfile = useSelector((state) => state.user.userProfile); // Use useSelector to access userProfile state
-  const userFirstName = userProfile?.firstName;
-  const tokenSelector = useSelector((state) => state.auth.token);
-  const [token, setToken] = useState(tokenSelector || "");
+  const { userName } = useSelector((state) => state.user); // Use useSelector to access userProfile state
+  const { token, isAuthenticated } = useSelector((state) => state.auth);
 
-  useEffect(
-    () => {
-      setToken(tokenSelector || localStorage.getItem("token") || "");
-    },
-    [tokenSelector],
-    []
-  );
   useEffect(() => {
-    if (token) {
-      dispatch(fetchProfile(token));
-    }
-  }, [token],[dispatch],[]);
-
-  
+    dispatch(fetchProfile(token));
+  }, [token, isAuthenticated]);
 
   const handleLogout = () => {
-    console.log('Logging out...');
-    localStorage.removeItem('jwtToken');
-    updateHeaderState(); // Update the header state
+    dispatch(logoutUser())
   };
 
   return (
@@ -46,11 +32,11 @@ export default function Header({ isUserConnected, updateHeaderState }) {
           <h1 className="sr-only">Argent Bank</h1>
         </NavLink>
         <div>
-          {isUserConnected ? (
+          {isAuthenticated ? (
             <div className='signout-nav'>
               <NavLink to="/user" className="nav-link">
                 <FontAwesomeIcon icon={faUserCircle} />
-                {userFirstName}
+                {userName}
               </NavLink>
               <NavLink to="/sign-in" onClick={handleLogout} className="nav-link">
                 <FontAwesomeIcon icon={faRightFromBracket} />

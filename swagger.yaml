@@ -7,10 +7,15 @@ basePath: /api/v1
 schemes:
   - http
 paths:
-  /user/transactions:
+  /account/:accountId/transactions:
     get:
       summary: Retrieve all transactions for the current month
       parameters:
+        - in: path
+          name: accountId
+          type: string
+          required: true
+          description: Account identifier
         - in: query
           name: month
           type: string
@@ -30,6 +35,11 @@ paths:
     post:
       summary: Add a new transaction
       parameters:
+        - in: path
+          name: accountId
+          type: string
+          required: true
+          description: Account identifier
         - in: header
           name: Authorization
           type: string
@@ -46,7 +56,7 @@ paths:
         400:
           description: Invalid request (incorrect transaction data)
 
-  /user/transactions/{transactionId}:
+  /transactions/{transactionId}:
     get:
       summary: Retrieve details of a specific transaction
       parameters:

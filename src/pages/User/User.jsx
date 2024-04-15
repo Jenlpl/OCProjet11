@@ -6,6 +6,7 @@ import AccountSection from '../../components/AccountSection/AccountSection.jsx';
 export default function User() {
   const [isEditFormVisible, setIsEditFormVisible] = useState(false);
   const [isDivHeaderVisible, setIsDivHeaderVisible] = useState(true);
+  // @TODO: Récupérer avec `useSelector` le status d'authentification de l'utilisateur.
   
 
   const handleEditButtonClick = () => {
@@ -13,8 +14,10 @@ export default function User() {
     setIsDivHeaderVisible(false); // Hide the div header when the edit button is clicked
   };
 
-  const userProfile = useSelector((state) => state.user.userProfile);
+  const { firstName } = useSelector((state) => state.user);
   const [isEditing, setEditing] = useState(false);
+
+  // @TODO: Rediriger l'utilisateur sur la page de connexion, si non authentifié (au sein d'un `useEffect`).
   
   return (
     <>
@@ -22,7 +25,7 @@ export default function User() {
       <main className="main bg-dark">
         {isDivHeaderVisible && ( // Show the div header only if it's visible
           <div className="header">
-            <h1>Welcome back<br /> {userProfile.firstName}!</h1>
+            <h1>Welcome back<br /> {firstName}!</h1>
             <button className="edit-button" onClick={handleEditButtonClick}>Edit Name</button>
           </div>
         )}

@@ -9,13 +9,12 @@ export const fetchProfile = createAsyncThunk("user/profile", async (token) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return await response.json();
+    const data = await response.json();
+    return data.body;
 });
 
 
-export function updateUsername(token, username) {
-  return async (dispatch) => {
-    try {
+export const updateUsername = createAsyncThunk("user/update", async({ userName, token}) => {
       const url = "http://localhost:3001/api/v1/user/profile";
       const response = await fetch(url, {
         method: "PUT",
@@ -23,20 +22,7 @@ export function updateUsername(token, username) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          userName: username,
-        }),
+        body: JSON.stringify({ userName }),
       });
-
-      const dataResponse = await response.json();
-      console.log(dataResponse);
-      switch (dataResponse.status) {
-        case 200:
-          dispatch(updateUsername(username));
-          break;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-}
+      return username;
+});

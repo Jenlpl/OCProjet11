@@ -1,34 +1,36 @@
-import {
-  EDIT_USERNAME,
-  GET_USERPROFILE,
-  LOGOUT,
-} from "../actions/types.actions";
+import { createSlice } from "@reduxjs/toolkit";
+
+import { fetchProfile, updateUsername } from "../actions/user.actions";
 
 const initialState = {
-  status: "VOID",
-  userProfile: "",
+  userName: "",
+  firstName: "",
+  lastName: "",
+  error: null
 };
 
-export const userReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case GET_USERPROFILE:
-      return {
-        ...state,
-        status: "SUCCEEDED",
-        userProfile: action.payload,
-      };
-
-    case EDIT_USERNAME:
-      const newProfile = { ...state.userProfile, userName: action.payload };
-      return {
-        ...state,
-        status: "MODIFIED",
-        userProfile: newProfile,
-      };
-    case LOGOUT: {
-      return initialState;
-    }
-    default:
-      return state;
+const userSlice = createSlice({
+  name: "user",
+  initialState,
+  extraReducers: (builder) => {
+    builder.addCase(fetchProfile.fulfilled, (state, action) => {
+      const { userName, firstName, lastName } = action.payload;
+      state.userName = userName;
+      state.firstName = firstName;
+      state.lastName = lastName;
+    });
+    builder.addCase(fetchProfile.rejected, (state, action) => {
+      console.error(action.error);
+      state.error = action.error.message;
+    });
+    builder.addCase(updateUsername.fulfilled, (state, action) => {
+      state.userName = action.payload.userName;
+    });
+    builder.addCase(updateUsername.rejected, (state, action) => {
+      console.error(action.error);
+      state.error = action.error.message;
+    });
   }
-};
+});
+
+export default userSlice.reducer;

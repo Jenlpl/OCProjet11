@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { loginUser } from '../../redux/actions/authThunks.jsx';
-import { useNavigate } from 'react-router-dom';
-import Header from '../../components/Header/Header.jsx';
-import { fetchProfile } from '../../redux/actions/user.actions.jsx';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../redux/actions/auth.actions";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn({ updateHeaderState }) {
-  const [credentials, setCredentials] = useState({ email: '', password: '' });
-  const [error, setError] = useState('');
+  const [credentials, setCredentials] = useState({ email: "", password: "", remember: false });
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { error, isAuthenticated } = useSelector(store => store.auth);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -21,26 +19,16 @@ export default function SignIn({ updateHeaderState }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Submitting form with credentials:', credentials);
-
-    try {
-      const response = await dispatch(loginUser(credentials));
-      console.log('Login response:', response);
-      
-      if (response.payload) {
-        console.log('Login successful! Navigating to /user');
-        // Call the function to update the header state
-        updateHeaderState();
-        navigate('/user');
-      } else {
-        console.log('Login failed:', response.error);
-        setError('Invalid email or password');
-      }
-    } catch (error) {
-      console.error('Error logging in:', error);
-      setError('An error occurred while logging in');
-    }
+    console.log("Submitting form with credentials:", credentials);
+    dispatch(loginUser(credentials));
+    navigate("/user");
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/user");
+    }
+  }, [isAuthenticated])
 
   return (
     <main className="main bg-dark">
@@ -67,7 +55,9 @@ export default function SignIn({ updateHeaderState }) {
             />
           </div>
           <div className="input-remember">
-            <input type="checkbox" id="remember-me" />
+            <input type="checkbox" id="remember-me" checked={credentials.remember} onChange={() => { 
+              setCredentials(previous => ({ ...previous, remember: !previous.remember})) 
+              }}/>
             <label htmlFor="remember-me">Remember me</label>
           </div>
           {error && <p className="bad-email">{error}</p>}
