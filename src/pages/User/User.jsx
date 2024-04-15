@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import EditForm from '../../components/EditForm/EditForm.jsx';
 import { useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 import AccountSection from '../../components/AccountSection/AccountSection.jsx';
 
 export default function User() {
   const [isEditFormVisible, setIsEditFormVisible] = useState(false);
   const [isDivHeaderVisible, setIsDivHeaderVisible] = useState(true);
   // @TODO: Récupérer avec `useSelector` le status d'authentification de l'utilisateur.
-  
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
   const handleEditButtonClick = () => {
     setIsEditFormVisible(true);
@@ -16,9 +17,16 @@ export default function User() {
 
   const { firstName } = useSelector((state) => state.user);
   const [isEditing, setEditing] = useState(false);
+  const navigate = useNavigate();
 
   // @TODO: Rediriger l'utilisateur sur la page de connexion, si non authentifié (au sein d'un `useEffect`).
-  
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/sign-in');
+    }
+  }, [isAuthenticated, navigate]);
+
+
   return (
     <>
       {isEditFormVisible && <EditForm setIsEditing={setEditing} />}

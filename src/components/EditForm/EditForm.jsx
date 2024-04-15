@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"; // Import React and useState
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUsername } from "../../redux/actions/user.actions";
 
@@ -7,22 +7,31 @@ export default function EditForm({ setIsEditing }) {
   const { userName, lastName, firstName } = useSelector((state) => state.user);
   const { token } = useSelector((state) => state.auth);
   const [newUserName, setNewUserName] = useState("");
-
-  const handleUpdateUserName = (event) => {
-    event.preventDefault();
-    if (newUserName.trim() && newUserName.trim() !== userName) {
-      dispatch(updateUsername({ token, userName: newUserName }));
-      setIsEditing(false);
-    }
-  };
-
-  const handleCancel = () => {
-    setIsEditing(false);
-  };
+  
 
   useEffect(() => {
-    setNewUserName(userName);
-  }, [userName])
+    setNewUserName(userName || "");
+  }, [userName]);
+
+  
+
+  const handleCancel = () => {
+       setIsEditing(false);
+       setNewUserName("");
+     };
+
+
+  const handleUpdateUserName = async () => {
+    if (newUserName.trim() && newUserName.trim() !== userName) {
+          dispatch(updateUsername({ token, userName: newUserName }));
+      setIsEditing(false);
+      setNewUserName("");
+    }
+  };
+  
+
+
+
 
   return (
     <div className="edit-form">
@@ -56,8 +65,8 @@ export default function EditForm({ setIsEditing }) {
           />
         </div>
         <div className="buttons-form">
-          <button className="button">Save</button>
-          <button className="button" onClick={handleCancel}>Cancel</button>
+          <button type="submit" className="button" onClick={handleUpdateUserName}>Save</button>
+          <button type="button" className="button" onClick={handleCancel}>Cancel</button>
         </div>
       </form>
     </div>

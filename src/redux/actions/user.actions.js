@@ -24,5 +24,5 @@ export const updateUsername = createAsyncThunk("user/update", async({ userName, 
         },
         body: JSON.stringify({ userName }),
       });
-      return username;
+      return userName;
 });
