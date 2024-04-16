@@ -60,7 +60,7 @@ export default function SignIn({ updateHeaderState }) {
               }}/>
             <label htmlFor="remember-me">Remember me</label>
           </div>
-          {error && <p className="bad-email">{error}</p>}
+          {error && <p className="bad-email">Invalid email or password.</p>}
           <button type="submit" className="sign-in-button">
             Sign In
           </button>

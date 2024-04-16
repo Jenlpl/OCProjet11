@@ -21,7 +21,7 @@ const userSlice = createSlice({
     });
     builder.addCase(fetchProfile.rejected, (state, action) => {
       console.error(action.error);
-      state.error = action.error.message;
+      state.error = action.error.message; 
     });
     builder.addCase(updateUsername.fulfilled, (state, action) => {
       state.userName = action.payload.userName;

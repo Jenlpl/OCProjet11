@@ -54,7 +54,7 @@ export default function EditForm({ setIsEditing }) {
           >
             Save
           </button>
-          <button type="button" className="button" onClick={handleCancel}>
+          <button type="submit" className="button" onClick={handleCancel}>
             Cancel
           </button>
         </div>
