@@ -14,7 +14,7 @@ const userSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder.addCase(fetchProfile.fulfilled, (state, action) => {
-      const { userName, firstName, lastName } = action.payload;
+      const { userName, firstName, lastName } = action.payload || {};
       state.userName = userName;
       state.firstName = firstName;
       state.lastName = lastName;
