@@ -3,10 +3,8 @@ import { loginUser } from "../actions/auth.actions";
 
 const initialState = {
   isAuthenticated: !!localStorage.getItem("token"),
-  // Get the token if one exists in the localStorage. If not, it will be null.
   token: localStorage.getItem("token"),
   error: null,
-  // Other initial state properties here
 };
 
 const authSlice = createSlice({
@@ -26,22 +24,19 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.error = null;
     }
-    // Add other reducers as needed
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.fulfilled, (state, action) => {
       const { token, remember } = action.payload;
       state.token = token;
       state.isAuthenticated = true;
-      if (remember) {
-        localStorage.setItem("token", token);
-      }
+      // Always set token in localStorage, regardless of the "remember" option
+      localStorage.setItem("token", token);
     })
     builder.addCase(loginUser.rejected, (state, action) => {
       console.error(action.error);
       state.token = null;
       state.isAuthenticated = false;
-      state.error = null;
       state.error = action.error.message;
     })
   }
