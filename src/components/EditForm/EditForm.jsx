@@ -7,31 +7,23 @@ export default function EditForm({ setIsEditing }) {
   const { userName, lastName, firstName } = useSelector((state) => state.user);
   const { token } = useSelector((state) => state.auth);
   const [newUserName, setNewUserName] = useState("");
-  
 
   useEffect(() => {
     setNewUserName(userName || "");
   }, [userName]);
 
-  
-
   const handleCancel = () => {
-       setIsEditing(false);
-       setNewUserName("");
-     };
-
+    setIsEditing(false);
+    setNewUserName("");
+  };
 
   const handleUpdateUserName = async () => {
     if (newUserName.trim() && newUserName.trim() !== userName) {
-          dispatch(updateUsername({ token, userName: newUserName }));
+      dispatch(updateUsername({ token, userName: newUserName }));
       setIsEditing(false);
       setNewUserName("");
     }
   };
-  
-
-
-
 
   return (
     <div className="edit-form">
@@ -48,25 +40,23 @@ export default function EditForm({ setIsEditing }) {
         </div>
         <div className="input-wrapper">
           <label htmlFor="password">First Name</label>
-          <input
-            type="text"
-            id="firstName"
-            value={firstName}
-            disabled={true}
-          />
+          <input type="text" id="firstName" value={firstName} disabled={true} />
         </div>
         <div className="input-wrapper">
           <label htmlFor="password">Last Name</label>
-          <input
-            type="text"
-            id="lastName"
-            value={lastName}
-            disabled={true}
-          />
+          <input type="text" id="lastName" value={lastName} disabled={true} />
         </div>
         <div className="buttons-form">
-          <button type="submit" className="button" onClick={handleUpdateUserName}>Save</button>
-          <button type="button" className="button" onClick={handleCancel}>Cancel</button>
+          <button
+            type="submit"
+            className="button"
+            onClick={handleUpdateUserName}
+          >
+            Save
+          </button>
+          <button type="button" className="button" onClick={handleCancel}>
+            Cancel
+          </button>
         </div>
       </form>
     </div>
