@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
+
 export const fetchProfile = createAsyncThunk("user/profile", async (token) => {
     const url = "http://localhost:3001/api/v1/user/profile";
     const response = await fetch(url, {
