@@ -30,7 +30,7 @@ export default function EditForm({ setIsEditing }) {
       <h2> Edit User Name</h2>
       <form onSubmit={handleUpdateUserName}>
         <div className="input-wrapper">
-          <label htmlFor="username">User Name</label>
+          <label htmlFor="newUserName">User Name</label>
           <input
             type="text"
             id="newUserName"
@@ -39,11 +39,11 @@ export default function EditForm({ setIsEditing }) {
           />
         </div>
         <div className="input-wrapper">
-          <label htmlFor="password">First Name</label>
+          <label htmlFor="firstName">First Name</label>
           <input type="text" id="firstName" value={firstName} disabled={true} />
         </div>
         <div className="input-wrapper">
-          <label htmlFor="password">Last Name</label>
+          <label htmlFor="lastName">Last Name</label>
           <input type="text" id="lastName" value={lastName} disabled={true} />
         </div>
         <div className="buttons-form">
