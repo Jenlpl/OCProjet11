@@ -19,7 +19,6 @@ export default function SignIn({ updateHeaderState }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitting form with credentials:", credentials);
     dispatch(loginUser(credentials));
     navigate("/user");
   };

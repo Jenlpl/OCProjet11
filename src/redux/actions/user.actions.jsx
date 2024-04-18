@@ -29,7 +29,6 @@ export function updateUsername(token, username) {
       });
 
       const dataResponse = await response.json();
-      console.log(dataResponse);
       switch (dataResponse.status) {
         case 200:
           dispatch(updateUsername(username));
