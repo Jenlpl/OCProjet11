@@ -8,7 +8,7 @@ export const loginUser = createAsyncThunk(
       "http://localhost:3001/api/v1/user/login",
       { email, password }
     );
-    // Get the token:
+
     return { 
       token: response.data.body.token,
       remember
