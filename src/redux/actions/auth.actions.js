@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// Création d'une action asynchrone pour la connexion de l'utilisateur
 export const loginUser = createAsyncThunk(
   "user/loginUser",
   async ({ email, password, remember }) => {
@@ -9,6 +10,7 @@ export const loginUser = createAsyncThunk(
       { email, password }
     );
 
+    // Retourne les données de la réponse de la requête
     return { 
       token: response.data.body.token,
       remember
