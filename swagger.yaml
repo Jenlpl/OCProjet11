@@ -7,7 +7,7 @@ basePath: /api/v1
 schemes:
   - http
 paths:
-  /account/:accountId/transactions:
+  /account/{accountId}/transactions:
     get:
       summary: Retrieve all transactions for the current month
       parameters:
