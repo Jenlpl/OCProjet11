@@ -8,14 +8,21 @@ import { fetchProfile } from "../../redux/actions/user.actions";
 import { logoutUser } from '../../redux/reducers/auth.reducers';
 
 export default function Header() {
+  // Hook useDispatch pour envoyer des actions
   const dispatch = useDispatch();
-  const { userName } = useSelector((state) => state.user); // Use useSelector to access userProfile state
+  // Hook useSelector pour accéder à l'état user depuis le store redux
+  const { userName } = useSelector((state) => state.user);
+  // Hook useSelector pour accéder à l'état auth depuis le store redux
   const { token, isAuthenticated } = useSelector((state) => state.auth);
 
+    // Hook useEffect pour récupérer le profil de l'utilisateur lorsque token ou isAuthenticated change
   useEffect(() => {
+        // Dispatch fetchProfile lorsqu'un changement est détecté dans token ou isAuthenticated
+    if (isAuthenticated)
     dispatch(fetchProfile(token));
   }, [token, isAuthenticated]);
 
+    // Fonction pour gérer la déconnexion
   const handleLogout = () => {
     dispatch(logoutUser())
   };

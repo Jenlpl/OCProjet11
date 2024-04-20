@@ -5,21 +5,26 @@ import { useNavigate } from 'react-router-dom';
 import AccountSection from '../../components/AccountSection/AccountSection.jsx';
 
 export default function User() {
+    // Hook useState pour gérer la visibilité du formulaire d'édition
   const [isEditFormVisible, setIsEditFormVisible] = useState(false);
+    // Hook useState pour gérer la visibilité de l'en-tête de la div
   const [isDivHeaderVisible, setIsDivHeaderVisible] = useState(true);
-  // @TODO: Récupérer avec `useSelector` le status d'authentification de l'utilisateur.
+  // Hook useSelector pour accéder à l'état d'authentification de l'utilisateur depuis le store redux
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
+    // Fonction pour gérer le clic sur le bouton d'édition
   const handleEditButtonClick = () => {
     setIsEditFormVisible(true);
     setIsDivHeaderVisible(false); // Hide the div header when the edit button is clicked
   };
 
+    // Hook useSelector pour accéder au prénom de l'utilisateur depuis le store redux
   const { firstName } = useSelector((state) => state.user);
+    // Hook useState pour gérer l'état d'édition
   const [isEditing, setEditing] = useState(false);
   const navigate = useNavigate();
 
-  // @TODO: Rediriger l'utilisateur sur la page de connexion, si non authentifié (au sein d'un `useEffect`).
+  // Hook useEffect pour rediriger l'utilisateur sur la page de connexion s'il n'est pas authentifié
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/sign-in');

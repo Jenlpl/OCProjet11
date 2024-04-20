@@ -3,20 +3,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUsername } from "../../redux/actions/user.actions";
 
 export default function EditForm({ setIsEditing }) {
+    // Hook useDispatch pour envoyer des actions
   const dispatch = useDispatch();
+    // Hook useSelector pour accéder à l'état user depuis le store redux
   const { userName, lastName, firstName } = useSelector((state) => state.user);
+    // Hook useSelector pour accéder à l'état auth depuis le store redux
   const { token } = useSelector((state) => state.auth);
+    // Hook useState pour gérer l'état local du nouveau nom d'utilisateur
   const [newUserName, setNewUserName] = useState("");
 
+    // Hook useEffect pour initialiser le nouveau nom d'utilisateur avec le nom d'utilisateur actuel
   useEffect(() => {
     setNewUserName(userName || "");
   }, [userName]);
 
+    // Fonction pour gérer l'annulation de l'édition
   const handleCancel = () => {
     setIsEditing(false);
     setNewUserName("");
   };
 
+    // Fonction pour gérer la mise à jour du nom d'utilisateur
   const handleUpdateUserName = async () => {
     if (newUserName.trim() && newUserName.trim() !== userName) {
       dispatch(updateUsername({ token, userName: newUserName }));
