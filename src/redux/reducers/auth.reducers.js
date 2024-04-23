@@ -37,7 +37,9 @@ const authSlice = createSlice({
       const { token, remember } = action.payload;
       state.token = token;
       state.isAuthenticated = true;
-        localStorage.setItem("token", token);   
+      if (remember) {
+        localStorage.setItem("token", token);
+      }
     })
     // Reducer pour gérer le cas où l'authentification échoue
     builder.addCase(loginUser.rejected, (state, action) => {
