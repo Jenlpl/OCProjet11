@@ -5,11 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import AccountSection from '../../components/AccountSection/AccountSection.jsx';
 
 export default function User() {
-    // Hook useState pour gérer la visibilité du formulaire d'édition
   const [isEditFormVisible, setIsEditFormVisible] = useState(false);
-    // Hook useState pour gérer la visibilité de l'en-tête de la div
   const [isDivHeaderVisible, setIsDivHeaderVisible] = useState(true);
-  // Hook useSelector pour accéder à l'état d'authentification de l'utilisateur depuis le store redux
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
     // Fonction pour gérer le clic sur le bouton d'édition

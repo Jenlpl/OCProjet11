@@ -4,13 +4,9 @@ import { loginUser } from "../../redux/actions/auth.actions";
 import { useNavigate } from "react-router-dom";
 
 export default function SignIn({ updateHeaderState }) {
-    // Hook useState pour gérer l'état local des identifiants
   const [credentials, setCredentials] = useState({ email: "", password: "", remember: false });
-    // Hook useDispatch pour envoyer des actions
   const dispatch = useDispatch();
-    // Hook useNavigate pour la navigation
   const navigate = useNavigate();
-    // Hook useSelector pour accéder à l'état auth depuis le store redux
   const { error, isAuthenticated } = useSelector(store => store.auth);
 
     // Fonction pour gérer le changement des champs du formulaire
@@ -26,7 +22,6 @@ export default function SignIn({ updateHeaderState }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(loginUser(credentials));
-    // navigate("/user");
   };
 
     // Hook useEffect pour rediriger l'utilisateur lorsqu'il est authentifié
